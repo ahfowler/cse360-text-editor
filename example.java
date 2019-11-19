@@ -1,5 +1,3 @@
-//taylor edit 2
-
 import javax.swing.*;  
 public class FirstSwingExample {  
 	public static void main(String[] args) {  
