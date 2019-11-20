@@ -15,7 +15,7 @@ import javax.swing.plaf.metal.*;
 
 import javax.swing.text.*;
 
-class TextEditor extends JFrame implements ActionListener {
+class TextEditor extends JFrame {
 
 	// Text component
 
@@ -62,20 +62,20 @@ class TextEditor extends JFrame implements ActionListener {
 		t = new JTextArea();
 
 		t.setText("-r\n"
-
-				+ "Boomer: The \"N\" Word of Our Generation.\n"
-
-				+ "-b\n"
-
-				+ "-r\n"
-
-				+ "Gen Z has finally snapped over climate change and financial inequality.\n"
-
-				+ "-b\n"
-
+				+ "This is a right-justified sentence.\n"
+				+ "-c\n"
+				+ "This is a centered sentence.\n"
 				+ "-l\n"
-
-				+ "In a viral audio clip on TikTok, a white-haired man in a baseball cap and polo shirt declares, “The millennials and Generation Z have the Peter Pan syndrome, they don’t ever want to grow up.” Thousands of teens have responded through remixed reaction videos and art projects with a simple phrase: “ok boomer.” “Ok boomer” has become Generation Z’s endlessly repeated retort to the problem of older people who just don’t get it, a rallying cry for millions of fed up kids. Teenagers use it to reply to cringey YouTube videos, Donald Trump tweets, and basically any person over 30 who says something condescending about young people — and the issues that matter to them.\n");
+				+ "This is a left justified sentence.\n"
+				+ "-t\n"
+				+ "This is a title.\n"
+				+ "-d\n"
+				+ "-s\n"
+				+ "-i\n"
+				+ "-b\n"
+				+ "-2\n"
+				+ "-1\n"
+				+ "-e\n");
 
 		t.setLineWrap(true);
 
@@ -103,18 +103,18 @@ class TextEditor extends JFrame implements ActionListener {
 
 	        try
 	        {
-	            doc.insertString(doc.getLength(), "Boomer: The \"N\" Word of Our Generation.\n\n", center);
-	            doc.setParagraphAttributes(0, doc.getLength(), center, false);
+//	            doc.insertString(doc.getLength(), "Title\n\n", center);
+//	            doc.setParagraphAttributes(0, doc.getLength(), center, false);
 	            
-	            int currentLength = doc.getLength();
-	            
-	            doc.insertString(doc.getLength(), "Gen Z has finally snapped over climate change and financial inequality.\n\n", right);
-	            doc.setParagraphAttributes(currentLength, doc.getLength(), right, false);
-	            
-	            currentLength = doc.getLength();
-	            
-	            doc.insertString(doc.getLength(), "In a viral audio clip on TikTok, a white-haired man in a baseball cap and polo shirt declares, “The millennials and Generation Z have the Peter Pan syndrome, they don’t ever want to grow up.” Thousands of teens have responded through remixed reaction videos and art projects with a simple phrase: “ok boomer.” “Ok boomer” has become Generation Z’s endlessly repeated retort to the problem of older people who just don’t get it, a rallying cry for millions of fed up kids. Teenagers use it to reply to cringey YouTube videos, Donald Trump tweets, and basically any person over 30 who says something condescending about young people — and the issues that matter to them.\n", right);
-	            doc.setParagraphAttributes(currentLength, doc.getLength(), left, false);
+//	            int currentLength = doc.getLength();
+//	            
+//	            doc.insertString(doc.getLength(), "Gen Z has finally snapped over climate change and financial inequality.\n\n", right);
+//	            doc.setParagraphAttributes(currentLength, doc.getLength(), right, false);
+//	            
+//	            currentLength = doc.getLength();
+//	            
+//	            doc.insertString(doc.getLength(), "In a viral audio clip on TikTok, a white-haired man in a baseball cap and polo shirt declares, “The millennials and Generation Z have the Peter Pan syndrome, they don’t ever want to grow up.” Thousands of teens have responded through remixed reaction videos and art projects with a simple phrase: “ok boomer.” “Ok boomer” has become Generation Z’s endlessly repeated retort to the problem of older people who just don’t get it, a rallying cry for millions of fed up kids. Teenagers use it to reply to cringey YouTube videos, Donald Trump tweets, and basically any person over 30 who says something condescending about young people — and the issues that matter to them.\n", right);
+//	            doc.setParagraphAttributes(currentLength, doc.getLength(), left, false);
 	        }
 	        catch(Exception e) {}
 	        
@@ -127,27 +127,38 @@ class TextEditor extends JFrame implements ActionListener {
 
 		JMenuBar mb = new JMenuBar();
 
-		// Create amenu for menu
+		// Create a menu for menu
 
 		JMenu m1 = new JMenu("File");
+		JMenu m2 = new JMenu("Run");
 
 		// Create menu items
 
 		JMenuItem mi1 = new JMenuItem("Import File");
 
 		JMenuItem mi2 = new JMenuItem("Export File");
+		
+		JMenuItem m2p = new JMenuItem("Process");
+		JMenuItem m2c = new JMenuItem("Clear");
+		
+		JMenuItem help = new JMenuItem("Help");
 
 		// Add action listener
 
-		mi1.addActionListener(this);
-
-		mi2.addActionListener(this);
+//		mi1.addActionListener(this);
+//
+//		mi2.addActionListener(this);
 
 		m1.add(mi1);
 
 		m1.add(mi2);
+		
+		m2.add(m2p);
+		m2.add(m2c);
 
 		mb.add(m1);
+		mb.add(m2);
+		mb.add(help);
 
 		f.setJMenuBar(mb);
 		
@@ -157,9 +168,21 @@ class TextEditor extends JFrame implements ActionListener {
         
         f.add(panel);
         
-		f.setSize(600, 600);
+		f.setSize(600, 700);
+		f.setLocationRelativeTo(null);
 
 		f.show();
+		
+		JOptionPane.showMessageDialog(f, "Hello!\n"
+				+ "Please import a valid text file to get started.\n"
+				+ "For further assistance, click 'Help'");
+		
+//		JOptionPane.showMessageDialog(f,
+//			    "Invalid command found.\n"
+//			    + "Unable to import file.\n"
+//			    + "Please refer to 'Help' for valid commands.",
+//			    "File Error",
+//			    JOptionPane.ERROR_MESSAGE);
 
 	}
 
