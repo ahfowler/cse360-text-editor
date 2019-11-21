@@ -2,6 +2,7 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileSystemView;
 
 import java.io.*;
 
@@ -16,7 +17,7 @@ class TextEditor extends JFrame {
 	// Text component
 
 	JTextArea t;
-	JTextPane p;
+	JTextArea p;
 
 	// Frame
 
@@ -65,12 +66,19 @@ class TextEditor extends JFrame {
 				+ "This is a left justified sentence.\n"
 				+ "-t\n"
 				+ "This is a title.\n"
+				+ "-l\n"
 				+ "-d\n"
+				+ "Hopefully, this sentence will be long enough to demonstrate that when text exceeds a line in the file, that the next line will be blank to simulate double spacing.\n"
 				+ "-s\n"
+				+ "This sentence should show that the spacing has defaulted back to single space. There should be no breaks between these lines.\n"
 				+ "-i\n"
+				+ "This sentence should be indented.\n"
 				+ "-b\n"
+				+ "This is an example of a block of text. Not only are there 10 spaces preceeding each line of text, but there is actually no breaks in between words.\n"
 				+ "-2\n"
+				+ "This is going to be the hardest to code! I don't even know how to fake a solution to this one.\n"
 				+ "-1\n"
+				+ "Yay! It's finally back to normal where everything is nice and has one column.\n"
 				+ "-e\n");
 
 		t.setLineWrap(true);
@@ -81,42 +89,32 @@ class TextEditor extends JFrame {
 
 		t.setEditable(true);
 
-		JScrollPane scroll = new JScrollPane(t);
-
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		JScrollPane topScroll = new JScrollPane(t);
+		topScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		 JTextPane p = new JTextPane();
-	        StyledDocument doc = p.getStyledDocument();
-
-	        SimpleAttributeSet center = new SimpleAttributeSet();
-	        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-
-	        SimpleAttributeSet right = new SimpleAttributeSet();
-	        StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-	        
-	        SimpleAttributeSet left = new SimpleAttributeSet();
-	        StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-
-	        try
-	        {
-//	            doc.insertString(doc.getLength(), "Title\n\n", center);
-//	            doc.setParagraphAttributes(0, doc.getLength(), center, false);
-	            
-//	            int currentLength = doc.getLength();
-//	            
-//	            doc.insertString(doc.getLength(), "Gen Z has finally snapped over climate change and financial inequality.\n\n", right);
-//	            doc.setParagraphAttributes(currentLength, doc.getLength(), right, false);
-//	            
-//	            currentLength = doc.getLength();
-//	            
-//	            doc.insertString(doc.getLength(), "In a viral audio clip on TikTok, a white-haired man in a baseball cap and polo shirt declares, “The millennials and Generation Z have the Peter Pan syndrome, they don’t ever want to grow up.” Thousands of teens have responded through remixed reaction videos and art projects with a simple phrase: “ok boomer.” “Ok boomer” has become Generation Z’s endlessly repeated retort to the problem of older people who just don’t get it, a rallying cry for millions of fed up kids. Teenagers use it to reply to cringey YouTube videos, Donald Trump tweets, and basically any person over 30 who says something condescending about young people — and the issues that matter to them.\n", right);
-//	            doc.setParagraphAttributes(currentLength, doc.getLength(), left, false);
-	        }
-	        catch(Exception e) {}
-	        
-	        p.setMargin(new Insets(10,10,10,10));
-	        //p.setBounds(10, 320, 580, 300);
 		
+		JTextArea p = new JTextArea();
+		Font font = new Font( "Monospaced", Font.PLAIN, 12 );
+		p.setFont(font);
+		p.setText("                                             This is a right-justified sentence.\n"
+				+ "This          is                 a              centered               sentence.\n"
+				+ "This is a left justified sentence.\n"
+				+ "                                This is a title.                                \n"
+				+ "Hopefully, this sentence will be long enough to demonstrate that when text\n\nexceeds a line in the file, that the next line will be blank to simulate double\n\nspacing.\n"
+				+ "This sentence should show that the spacing has defaulted back to single space.\nThere should be no breaks between these lines.\n"
+				+ "     This sentence should be indented.\n"
+				+ "          This is an example of a block of text. Not only are there 10 spaces\n          preceeding each line of text, but there is actually no breaks in\n          between words.\n"
+				+ "This is going to be the hardest to          a solution to this one.\ncode! I don't even know how to fake          \n"
+				+ "Yay! It's finally back to normal where everything is nice and has one column.\n"
+				+ "\n");
+
+//		p.setLineWrap(true);
+//		p.setWrapStyleWord(true);
+		p.setMargin(new Insets(10, 10, 10, 10));
+		p.setEditable(false);
+	    p.setMargin(new Insets(10,10,10,10));
+	    
+	    JScrollPane bottomScroll = new JScrollPane(p);		
 		
 
 		// Create a menubar
@@ -134,8 +132,9 @@ class TextEditor extends JFrame {
 
 		JMenuItem mi2 = new JMenuItem("Export File");
 		
-		JMenuItem m2p = new JMenuItem("Process");
-		JMenuItem m2c = new JMenuItem("Clear");
+		JMenuItem m2p = new JMenuItem("Process File");
+		JMenuItem m2c = new JMenuItem("Clear File");
+		JMenuItem m2e = new JMenuItem("Print Error Log");
 		
 		JMenuItem help = new JMenuItem("Help");
 
@@ -151,6 +150,7 @@ class TextEditor extends JFrame {
 		
 		m2.add(m2p);
 		m2.add(m2c);
+		m2.add(m2e);
 
 		mb.add(m1);
 		mb.add(m2);
@@ -158,27 +158,46 @@ class TextEditor extends JFrame {
 
 		f.setJMenuBar(mb);
 		
-		panel.add(scroll);
+		panel.add(topScroll);
 		
-        panel.add(p);
+        panel.add(bottomScroll);
         
         f.add(panel);
         
-		f.setSize(600, 700);
+		f.setSize(620, 700);
 		f.setLocationRelativeTo(null);
 
 		f.show();
 		
-		JOptionPane.showMessageDialog(f, "Hello!\n"
-				+ "Please import a valid text file to get started.\n"
-				+ "For further assistance, click 'Help'");
-		
+//		JOptionPane.showMessageDialog(f, "Hello!\n"
+//				+ "Please import a valid text file to get started.\n"
+//				+ "For further assistance, click 'Help'");
+//		
 //		JOptionPane.showMessageDialog(f,
 //			    "Invalid command found.\n"
 //			    + "Unable to import file.\n"
 //			    + "Please refer to 'Help' for valid commands.",
 //			    "File Error",
 //			    JOptionPane.ERROR_MESSAGE);
+		
+//		JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//		int r = j.showOpenDialog(null);
+		
+		JOptionPane.showMessageDialog(f,
+			    "Command Manual\n\n"
+			    + "-l | Justify text to the left.\n"
+			    + "-r | Justify text to the right.\n"
+			    + "-c | Justify text to the left and right.\n"
+			    + "-t | Align text to the center, no justification.\n"
+			    + "-d | Change line spacing to double.\n"
+			    + "-s | Change line spacing to single.\n"
+			    + "-i | Add indents to text. (Forces left justification)\n"
+			    + "-b | Make texts in blocks. (Forces left justification)\n"
+			    + "-2 | Make texts in two columns. (Not indented)\n"
+			    + "-1 | Make texts in one column. (Not indented)\n"
+			    + "-e | Blank line.\n",
+			    "Help",
+			    JOptionPane.PLAIN_MESSAGE);
 
 	}
 
