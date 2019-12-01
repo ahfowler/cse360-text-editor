@@ -9,8 +9,10 @@ package project360;
  *	Class ID: 70642 - CSE 360 - Wednesday 
  *  Team Number: 39
  *  Group Project 
- * a
- *  [Insert Description here] 
+ * 
+ *  360 Text Editor - A program that creates a formatted text file given a 
+ *  document with user created formatting flags. 
+ *  
  *  
  *  @version 1.0 November 22, 2019
  **/
@@ -24,6 +26,9 @@ import java.awt.event.*;
 import javax.swing.plaf.metal.*; 
 import javax.swing.text.*; 
 
+/**
+ * Creates a GUI object for the 360 Text Editor application 
+ */
 class Gui extends JFrame implements ActionListener 
 { 
 	static String textStr = ""; //hold user text
@@ -37,7 +42,7 @@ class Gui extends JFrame implements ActionListener
 	JTextArea bottomText;   //output viewer 
 
 	/**
-	 * Constructor for the editor class 
+	 * Constructor for the Gui class 
 	 */
 	Gui() 
 	{ 
@@ -163,7 +168,6 @@ class Gui extends JFrame implements ActionListener
 		JOptionPane.showMessageDialog(frameOne, "Hello!\n"
 				+ "Please import a valid text file to get started.\n"
 				+ "For further assistance, click 'Help'");
-
 	} 
 
 	/**
