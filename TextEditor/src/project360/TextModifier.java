@@ -201,56 +201,24 @@ public class TextModifier {
 	}
 
 	String doubleText(String line) {
-		if (line.length() > 80) {
-			String newLine = line.substring(0, 80);
-
-			String[] words = newLine.split(" ");
-			String lastWord = words[words.length - 1];
-
-			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
-				// The last word is cut off!
-				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
-					newLine += words[i] + " ";
-				}
-				newLine = newLine.substring(0, newLine.length() - 1);
-			}
-
-			newLine = doubleText(newLine);
-			String nextLine = doubleText(
-					line.substring(80 - lastWord.length() - 1));
-
-			return newLine + "\n" + nextLine;
+		// lines will always have 81 characters (including the new line)
+		if (line.length() > 81) { // There is another line
+			String newLine = doubleText(line.substring(0, 81));
+			String nextLine = doubleText(line.substring(81));		
+			return newLine + nextLine;
 		} else {
 			return line + "\n";
 		}
 	}
 
 	String singleText(String line) {
-		if (line.length() > 80) {
-			String newLine = line.substring(0, 80);
-
-			String[] words = newLine.split(" ");
-			String lastWord = words[words.length - 1];
-
-			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
-				// The last word is cut off!
-				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
-					newLine += words[i] + " ";
-				}
-				newLine = newLine.substring(0, newLine.length() - 1);
-			}
-
-			newLine = doubleText(newLine);
-			String nextLine = doubleText(
-					line.substring(80 - lastWord.length() - 1));
-
+		// lines will always have 81 characters (including the new line)
+		if (line.length() > 81) { // There is another line
+			String newLine = doubleText(line.substring(0, 81));
+			String nextLine = doubleText(line.substring(81));		
 			return newLine + nextLine;
 		} else {
-			return line + "\n";
+			return line;
 		}
 	}
 
@@ -335,13 +303,10 @@ public class TextModifier {
 
 	void formatString(String text) {
 		// Logic on parsing the rawText using the methods above.
-		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into
-													// lines
-
-		// commandQueue.add('l'); //left justified default
-		// commandQueue.add('s'); //single space default
-		// commandQueue.add('1'); //one column default
-
+		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into lines
+		commandQueue.add('l'); //left justified default
+		commandQueue.add('s'); //single space default
+		commandQueue.add('1'); //one column default
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].charAt(0) == '-') { // We are reading a command
 				// Add to the commandQueue
