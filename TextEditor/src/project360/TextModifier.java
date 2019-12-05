@@ -232,7 +232,7 @@ public class TextModifier {
 
 			// prevent mid word splitting
 			if (spltWords != ' ') {
-				while (spltWords != ' ' && spltWords != -1) {
+				while (spltWords != ' ' && split > -1) {
 					--split;
 					spltWords = line.charAt(split);
 
@@ -259,7 +259,7 @@ public class TextModifier {
 
 			// prevent mid word splitting
 			if (spltWords != ' ') {
-				while (spltWords != ' ' && spltWords != -1) {
+				while (spltWords != ' ' && split > -1) {
 					--split;
 					spltWords = line.charAt(split);
 				}

@@ -80,8 +80,10 @@ class Gui extends JFrame implements ActionListener {
 
 		JScrollPane scrollb = new JScrollPane(bottomText);
 
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollb.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollb.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JTextPane panelOne = new JTextPane();
 		StyledDocument doc = panelOne.getStyledDocument();
@@ -128,18 +130,24 @@ class Gui extends JFrame implements ActionListener {
 		JMenuItem rClear = new JMenuItem("Clear");
 		JMenuItem rProcess = new JMenuItem("Process");
 		JMenuItem hHelp = new JMenuItem("Flag Guide");
+		JMenuItem gHelp = new JMenuItem("Formatting Guide");
+		JMenuItem eHelp = new JMenuItem("Error Guide");
 
 		fImport.addActionListener(this);
 		fExport.addActionListener(this);
 		rClear.addActionListener(this);
 		rProcess.addActionListener(this);
 		hHelp.addActionListener(this);
+		gHelp.addActionListener(this);
+		eHelp.addActionListener(this);
 
 		fileOpt.add(fImport);
 		fileOpt.add(fExport);
 		runOpt.add(rClear);
 		runOpt.add(rProcess);
 		helpOpt.add(hHelp);
+		helpOpt.add(gHelp);
+		helpOpt.add(eHelp);
 
 		// Controls and sets frame formatting
 		frameOne.setJMenuBar(menuBar);
@@ -157,8 +165,9 @@ class Gui extends JFrame implements ActionListener {
 
 		frameOne.show();
 
-		JOptionPane.showMessageDialog(frameOne, "Hello!\n" + "Please import a valid text file to get started.\n"
-				+ "For further assistance, click 'Help'");
+		JOptionPane.showMessageDialog(frameOne,
+				"Hello!\n" + "Please import a valid text file to get started.\n"
+						+ "For further assistance, click 'Help'");
 	}
 
 	/**
@@ -256,16 +265,34 @@ class Gui extends JFrame implements ActionListener {
 			imported = false;
 			textStr = "";
 		} else if (select.equals("Flag Guide")) {
-			JOptionPane.showMessageDialog(frameOne, "Help\n" +
+			JOptionPane.showMessageDialog(frameOne, "Flag Guide\n" +
 					"'-r' right-justified text\n" + "'-c' center text\n" +
 					"'-l' left-justified text\n" + "'-t' title\n" +
 					"'-d' double line spacing\n" + "'-s' single line spacing\n" +
 					"'-i' indented text\n" + "'-b' block text\n" +
 					"'-2' two columns text\n" + "'-1' one column text\n" +
-					"'-e' blank line\n" + 
-					"Make sure there are no blank lines before a command.\n" + 
-					"For more help refer to the '360 Text Edit' User Guide");
+					"'-e' blank line\n");
 
+		} else if (select.equals("Error Guide")) {
+			JOptionPane.showMessageDialog(frameOne, "Error Guide\n\n" + 
+		"If an error has occured in the program,\nan error log will be saved " +
+					"along side\nyour exported file.\n\n" + 
+		"Error Conditions:\n" + "An invalid flag. ex. -5\nA blank line");
+			
+		} else if (select.equals("Formatting Guide")) {
+			JOptionPane.showMessageDialog(frameOne, "Formatting Guide\n\n"
+					+ "-To format your text, place a command flag on the line\n"
+					+ "or lines directly about the text you wish to edit.\n\n"
+					+ "-Multiple flags may be used on a single line of text,\n"
+					+ "but each flag needs to be on its own line.\n\n"
+					+ "-If two flags with conflicting instructions are listed \n"
+					+ "for a single section of text, the second flag will be s"
+					+ "elected.\n\n"
+					+ "-Ensure that there are no blank lines in your file.\n"
+					+ "\nFormatting Example:\n" + "----------------\n"
+					+ "-c\n" + "-i\n"
+					+ "Lorem Impsum Lorem ipsum dolor sit amet, consectetuer\n"
+					+ "adipiscing elit Lorem ipsum dolor sit amet");				
 		}
 	}
 }
