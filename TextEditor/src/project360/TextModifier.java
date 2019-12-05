@@ -21,12 +21,14 @@ import java.util.Queue;
 public class TextModifier {
 	private String rawText;
 	private String formattedString;
+	private String errorLog;
 
 	private Queue<Character> commandQueue;
 
 	TextModifier(String text) {
 		rawText = text;
 		formattedString = "";
+		errorLog = "Error Log:\n";
 		commandQueue = new LinkedList<>();
 	}
 
@@ -297,6 +299,7 @@ public class TextModifier {
 		case 'e':
 			return "\n";
 		default:
+			errorLog += "-" + command + " is not a valid command.\n";
 			return line;
 		}
 	}
@@ -307,17 +310,22 @@ public class TextModifier {
 		commandQueue.add('l'); //left justified default
 		commandQueue.add('s'); //single space default
 		commandQueue.add('1'); //one column default
+		
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].charAt(0) == '-') { // We are reading a command
 				// Add to the commandQueue
 				commandQueue.add(lines[i].charAt(1));
 			} else {
+				// Compile formattedLines until you reach another command.
+				
 				// Use the commandQueue to invoke methods on the next line
 				String formattedLine = lines[i];
+				
 				while (!commandQueue.isEmpty()) {
 					char command = commandQueue.remove();
 					formattedLine = envokeCommand(command, formattedLine);
 				}
+				
 				formattedString += formattedLine;
 				commandQueue.add('l');
 				commandQueue.add('s');
@@ -329,4 +337,10 @@ public class TextModifier {
 	String getFormattedString() {
 		return formattedString;
 	}
+	
+	String getErrorLog() {
+		return errorLog;
+	}
+	
+	
 }
