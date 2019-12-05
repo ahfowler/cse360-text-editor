@@ -73,14 +73,15 @@ class Gui extends JFrame implements ActionListener
 		topText.setLineWrap(true);
 		topText.setWrapStyleWord(true);
 		topText.setMargin(new Insets(10, 10, 10, 10));
-		topText.setEditable(true);
+		topText.setEditable(false);
 
 		JScrollPane scroll = new JScrollPane(topText);
 	
 		bottomText.setLineWrap(true);
 		bottomText.setWrapStyleWord(true);
-		bottomText.setMargin(new Insets(10, 10, 20, 20));
+		bottomText.setMargin(new Insets(55,55,55,55));
 		bottomText.setEditable(false);
+		bottomText.setFont(new Font("monospaced", Font.PLAIN, 10));
 
 		JScrollPane scrollb = new JScrollPane(bottomText);
 
@@ -160,7 +161,7 @@ class Gui extends JFrame implements ActionListener
 		frameOne.add(panel);
 
 
-		frameOne.setSize(600, 700);
+		frameOne.setSize(635, 700);
 		frameOne.setLocationRelativeTo(null);
 
 		frameOne.show();
@@ -261,8 +262,9 @@ class Gui extends JFrame implements ActionListener
 				if (imported == true) 
 				{ 	
 					//formats the output text and displays it in bottom window
-					//TextModifier modedText = new TextModifier(); 
-					bottomText.setText(textStr); 
+					TextModifier modedText = new TextModifier(textStr);
+					modedText.formatString(textStr);
+					bottomText.setText(modedText.getFormattedString()); 
 					JOptionPane.showMessageDialog(frameOne,"File Processed"); 
 				} 
 				else
