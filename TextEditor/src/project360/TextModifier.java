@@ -249,6 +249,9 @@ public class TextModifier
 					formattedLine = envokeCommand(command, formattedLine);
 				}
 				formattedString += formattedLine;
+				commandQueue.add('l');
+				commandQueue.add('s');
+				commandQueue.add('1');
 			}
 		}
 	}
