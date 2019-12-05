@@ -255,7 +255,7 @@ public class TextModifier {
 	}
 
 	String indentText(String line) {
-
+		line = line.trim().replaceAll("\\s+", " ");
 		if (line.length() > 75) {
 			int split = 75;
 			char spltWords = line.charAt(split);
@@ -282,7 +282,7 @@ public class TextModifier {
 	}
 
 	String blockText(String line) {
-		
+		line = line.trim().replaceAll("\\s+", " ");
 		if (line.length() > 70) {
 			int split = 70;
 			char spltWords = line.charAt(split);
@@ -301,7 +301,7 @@ public class TextModifier {
 		} else {
 			line = returnSpaces(10) + line;
 		}
-		return line;
+		return line + "\n";
 	}
 
 	String envokeCommand(char command, String line) {
