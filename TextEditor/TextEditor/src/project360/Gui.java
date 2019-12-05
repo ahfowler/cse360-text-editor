@@ -244,16 +244,7 @@ class Gui extends JFrame implements ActionListener {
 			imported = false;
 			textStr = "";
 		} else if (select.equals("Flag Guide")) {
-			JOptionPane.showMessageDialog(frameOne, "Help\n" +
-					"'-r' right-justified text\n" + "'-c' center text\n" +
-					"'-l' left-justified text\n" + "'-t' title\n" +
-					"'-d' double line spacing\n" + "'-s' single line spacing\n" +
-					"'-i' indented text\n" + "'-b' block text\n" +
-					"'-2' two columns text\n" + "'-1' one column text\n" +
-					"'-e' blank line\n" + 
-					"Make sure there are no blank lines before a command.\n" + 
-					"For more help refer to the '360 Text Edit' User Guide");
-
+			JOptionPane.showMessageDialog(frameOne, "Flag Instructions\n" + "'-c' center text");
 		}
 	}
 }
