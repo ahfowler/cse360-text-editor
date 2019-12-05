@@ -32,8 +32,9 @@ import javax.swing.text.*;
 class Gui extends JFrame implements ActionListener {
 	static String textStr = ""; // hold user text
 	static boolean imported = false; // true if a file has been imported
+	static TextModifier modedText;
 
-	// Frame Objecta
+	// Frame Objects
 	JFrame frameOne;
 
 	// Text Viewer Objects
@@ -174,19 +175,30 @@ class Gui extends JFrame implements ActionListener {
 
 			// Create file selection object
 			JFileChooser selectExp = new JFileChooser("f:");
+			selectExp.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 			int saveE = selectExp.showSaveDialog(null);
 
 			if (saveE == JFileChooser.APPROVE_OPTION) {
 
-				File label = new File(selectExp.getSelectedFile().getAbsolutePath());
+				File label = new File(selectExp.getSelectedFile().getAbsolutePath()+"/FormattedText.txt");
+				File error = new File(selectExp.getSelectedFile().getAbsolutePath()+"/ErrorLog.txt");
 
 				try {
 					// write files
+					label.createNewFile();
 					FileWriter writer = new FileWriter(label, false);
 					BufferedWriter wfile = new BufferedWriter(writer);
 
 					wfile.write(bottomText.getText());
+					wfile.flush();
+					wfile.close();
+					
+					error.createNewFile();
+					writer = new FileWriter(error, false);
+					wfile = new BufferedWriter(writer);
+
+					wfile.write(modedText.getErrorLog());
 					wfile.flush();
 					wfile.close();
 				} catch (Exception evt) {
@@ -231,7 +243,7 @@ class Gui extends JFrame implements ActionListener {
 			// if a file is selected
 			if (imported == true) {
 				// formats the output text and displays it in bottom window
-				TextModifier modedText = new TextModifier(textStr);
+				modedText = new TextModifier(textStr);
 				modedText.formatString(textStr);
 				bottomText.setText(modedText.getFormattedString());
 				JOptionPane.showMessageDialog(frameOne, "File Processed");
