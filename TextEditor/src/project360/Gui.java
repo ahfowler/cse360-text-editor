@@ -68,7 +68,7 @@ class Gui extends JFrame implements ActionListener {
 		topText.setLineWrap(true);
 		topText.setWrapStyleWord(true);
 		topText.setMargin(new Insets(10, 10, 10, 10));
-		topText.setEditable(false);
+		topText.setEditable(true);
 
 		JScrollPane scroll = new JScrollPane(topText);
 
@@ -250,9 +250,9 @@ class Gui extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(frameOne, "A file was not imported");
 		} else if (select.equals("Process")) {
 			// if a file is selected
-			if (imported == true) {
+			if (imported == true || topText.getText() != "") {
 				// formats the output text and displays it in bottom window
-				modedText = new TextModifier(textStr);
+				modedText = new TextModifier(topText.getText());
 				modedText.formatString(textStr);
 				bottomText.setText(modedText.getFormattedString());
 				JOptionPane.showMessageDialog(frameOne, "File Processed");

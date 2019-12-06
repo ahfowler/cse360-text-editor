@@ -133,6 +133,7 @@ public class TextModifier {
 			return newLine + nextLine;
 		} else {
 			String[] words = line.split(" ");
+			if (words.length > 1) {
 			String lastWord = words[words.length - 1];
 
 			int numOfSpaces = 80 - line.length();
@@ -155,10 +156,10 @@ public class TextModifier {
 				}
 			}
 			newLine += lastWord;
-
-			System.out.println(newLine.length());
-
 			return newLine + "\n";
+			} else {
+				return leftText(line);
+			}
 		}
 	}
 
@@ -253,6 +254,7 @@ public class TextModifier {
 
 	String blockText(String line) {
 		line = line.trim().replaceAll("\\s+", " ");
+		
 		if (line.length() > 70) {
 			int split = 70;
 			char spltWords = line.charAt(split);
@@ -337,24 +339,28 @@ public class TextModifier {
 //		commandQueue.add('1'); //one column default
 		
 		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].charAt(0) == '-') { // We are reading a command
-				// Add to the commandQueue
-				commandQueue.add(lines[i].charAt(1));
-			} else {
-				// Compile formattedLines until you reach another command.
-				
-				// Use the commandQueue to invoke methods on the next line
-				String formattedLine = lines[i];
-				
-				while (!commandQueue.isEmpty()) {
-					char command = commandQueue.remove();
-					formattedLine = envokeCommand(command, formattedLine);
+			if (lines[i].length() >= 1) { // Ignore blank lines.
+				if (lines[i].charAt(0) == '-' && lines[i].length() == 2) { // We are reading a command
+					// Add to the commandQueue
+					commandQueue.add(lines[i].charAt(1));
+				} else { // Treat it like text.
+					// Compile formattedLines until you reach another command.
+					
+					// Use the commandQueue to invoke methods on the next line
+					String formattedLine = lines[i];
+					
+					while (!commandQueue.isEmpty()) {
+						char command = commandQueue.remove();
+						formattedLine = envokeCommand(command, formattedLine);
+					}
+					
+					formattedString += formattedLine;
+	//				commandQueue.add('l');
+	//				commandQueue.add('s');
+	//				commandQueue.add('1');
 				}
-				
-				formattedString += formattedLine;
-//				commandQueue.add('l');
-//				commandQueue.add('s');
-//				commandQueue.add('1');
+			} else {
+				formattedString += "\n";
 			}
 		}
 	}
