@@ -18,45 +18,72 @@ import java.util.Queue;
  * @version 1.0 November 22, 2019
  **/
 
-public class TextModifier {
+/**
+ * TextModifier - A class of functions used to edit text given the proper flag.
+ */
+public class TextModifier
+{
 	private String rawText;
 	private String formattedString;
 	private String errorLog;
 
 	private Queue<Character> commandQueue;
 
-	TextModifier(String text) {
+	/**
+	 * Constructor for the TextModifier class
+	 * 
+	 * @param text a string of user text
+	 */
+	TextModifier(String text)
+	{
 		rawText = text;
 		formattedString = "";
 		errorLog = "Error Log:\n";
 		commandQueue = new LinkedList<>();
 	}
 
-	// Methods based on command.
-	String returnSpaces(int count) {
+	/**
+	 * returnSpaces() returns a series of spaces
+	 * 
+	 * @param count The number of spaces needed.
+	 * @return String - A string of whitespace.
+	 */
+	String returnSpaces(int count)
+	{
 		String spaces = "";
 
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++)
+		{
 			spaces += " ";
 		}
 
 		return spaces;
 	}
 
-	String leftText(String line) {
+	/**
+	 * leftText() - Left justifies a given string of text
+	 * 
+	 * @param line A string of text
+	 * @return String - Left justified 'line' text
+	 */
+	String leftText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
 
-		if (line.length() > 80) {
+		if (line.length() > 80)
+		{
 			String newLine = line.substring(0, 80);
 
 			String[] words = newLine.split(" ");
 			String lastWord = words[words.length - 1];
 
 			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
+					|| newLine.charAt(79) != ' ')
+			{
 				// The last word is cut off!
 				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
+				for (int i = 0; i < words.length - 1; i++)
+				{
 					newLine += words[i] + " ";
 				}
 				newLine = newLine.substring(0, newLine.length() - 1);
@@ -67,7 +94,8 @@ public class TextModifier {
 					line.substring(80 - lastWord.length() - 1));
 
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			int numOfSpaces = 80 - line.length();
 			String newLine = line;
 			newLine += returnSpaces(numOfSpaces);
@@ -75,20 +103,30 @@ public class TextModifier {
 		}
 	}
 
-	String rightText(String line) {
+	/**
+	 * rightText() - Right justifies a given string of text
+	 * 
+	 * @param line A string of text
+	 * @return String - Right justified 'line' text
+	 */
+	String rightText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
 
-		if (line.length() > 80) {
+		if (line.length() > 80)
+		{
 			String newLine = line.substring(0, 80);
 
 			String[] words = newLine.split(" ");
 			String lastWord = words[words.length - 1];
 
 			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
+					|| newLine.charAt(79) != ' ')
+			{
 				// The last word is cut off!
 				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
+				for (int i = 0; i < words.length - 1; i++)
+				{
 					newLine += words[i] + " ";
 				}
 				newLine = newLine.substring(0, newLine.length() - 1);
@@ -99,7 +137,8 @@ public class TextModifier {
 					line.substring(80 - lastWord.length() - 1));
 
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			int numOfSpaces = 80 - line.length();
 			String newLine = returnSpaces(numOfSpaces);
 			newLine += line;
@@ -107,9 +146,17 @@ public class TextModifier {
 		}
 	}
 
-	String centerText(String line) {
+	/**
+	 * centerText() - Center justifies a given string of text
+	 * 
+	 * @param line A string of text.
+	 * @return String - Center justified 'line' text.
+	 */
+	String centerText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
-		if (line.length() > 80) {
+		if (line.length() > 80)
+		{
 
 			String newLine = line.substring(0, 80);
 
@@ -117,10 +164,12 @@ public class TextModifier {
 			String lastWord = words[words.length - 1];
 
 			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
+					|| newLine.charAt(79) != ' ')
+			{
 				// The last word is cut off!
 				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
+				for (int i = 0; i < words.length - 1; i++)
+				{
 					newLine += words[i] + " ";
 				}
 				newLine = newLine.substring(0, newLine.length() - 1);
@@ -131,41 +180,57 @@ public class TextModifier {
 					line.substring(80 - lastWord.length() - 1));
 
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			String[] words = line.split(" ");
-			String lastWord = words[words.length - 1];
+			if (words.length > 1)
+			{
+				String lastWord = words[words.length - 1];
 
-			int numOfSpaces = 80 - line.length();
-			int spacesPerWord = numOfSpaces / (words.length - 1) + 1;
-			int remainingSpaces = line.length()
-					+ spacesPerWord * (words.length - 1) - words.length;
+				int numOfSpaces = 80 - line.length();
+				int spacesPerWord = numOfSpaces / (words.length - 1) + 1;
+				int remainingSpaces = line.length()
+						+ spacesPerWord * (words.length - 1) - words.length;
 
-			if (remainingSpaces < 80) {
-				remainingSpaces = 80 - remainingSpaces - 1;
-			} else {
-				remainingSpaces = 0;
-			}
-
-			String newLine = "";
-
-			for (int i = 0; i < words.length - 1; i++) {
-				newLine += words[i] + returnSpaces(spacesPerWord);
-				if (i == words.length / 2) {
-					newLine += returnSpaces(remainingSpaces);
+				if (remainingSpaces < 80)
+				{
+					remainingSpaces = 80 - remainingSpaces - 1;
+				} else
+				{
+					remainingSpaces = 0;
 				}
+
+				String newLine = "";
+
+				for (int i = 0; i < words.length - 1; i++)
+				{
+					newLine += words[i] + returnSpaces(spacesPerWord);
+					if (i == words.length / 2)
+					{
+						newLine += returnSpaces(remainingSpaces);
+					}
+				}
+				newLine += lastWord;
+				return newLine + "\n";
+			} else
+			{
+				return leftText(line);
 			}
-			newLine += lastWord;
-
-			System.out.println(newLine.length());
-
-			return newLine + "\n";
 		}
 	}
 
-	String titleText(String line) {
+	/**
+	 * titleText() - Centers a string, creating a title
+	 * 
+	 * @param line A string of text.
+	 * @return String - A centered title.
+	 */
+	String titleText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
 
-		if (line.length() > 80) {
+		if (line.length() > 80)
+		{
 
 			String newLine = line.substring(0, 80);
 
@@ -173,10 +238,12 @@ public class TextModifier {
 			String lastWord = words[words.length - 1];
 
 			if (newLine.charAt(79) != lastWord.charAt(0)
-					|| newLine.charAt(79) != ' ') {
+					|| newLine.charAt(79) != ' ')
+			{
 				// The last word is cut off!
 				newLine = "";
-				for (int i = 0; i < words.length - 1; i++) {
+				for (int i = 0; i < words.length - 1; i++)
+				{
 					newLine += words[i] + " ";
 				}
 				newLine = newLine.substring(0, newLine.length() - 1);
@@ -187,13 +254,15 @@ public class TextModifier {
 					line.substring(80 - lastWord.length() - 1));
 
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			int numOfSpaces = 80 - line.length();
 			String newLine = returnSpaces(numOfSpaces / 2);
 			newLine += line;
 			newLine += returnSpaces(numOfSpaces / 2);
 
-			if (newLine.length() < 80) {
+			if (newLine.length() < 80)
+			{
 				newLine += " ";
 			}
 
@@ -202,37 +271,65 @@ public class TextModifier {
 		}
 	}
 
-	String doubleText(String line) {
+	/**
+	 * doubleText() - Double spaces lines of text
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, double-spaced.
+	 */
+	String doubleText(String line)
+	{
 		// lines will always have 81 characters (including the new line)
-		if (line.length() > 81) { // There is another line
+		if (line.length() > 81)
+		{ // There is another line
 			String newLine = doubleText(line.substring(0, 81));
-			String nextLine = doubleText(line.substring(81));		
+			String nextLine = doubleText(line.substring(81));
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			return line + "\n";
 		}
 	}
 
-	String singleText(String line) {
+	/**
+	 * singleText() - Single spaces lines of text
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, single-spaced.
+	 */
+	String singleText(String line)
+	{
 		// lines will always have 81 characters (including the new line)
-		if (line.length() > 81) { // There is another line
+		if (line.length() > 81)
+		{ // There is another line
 			String newLine = doubleText(line.substring(0, 81));
-			String nextLine = doubleText(line.substring(81));		
+			String nextLine = doubleText(line.substring(81));
 			return newLine + nextLine;
-		} else {
+		} else
+		{
 			return line;
 		}
 	}
 
-	String indentText(String line) {
+	/**
+	 * indentText() - Indents the first line of given text.
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, with the first line indented.
+	 */
+	String indentText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
-		if (line.length() > 75) {
+		if (line.length() > 75)
+		{
 			int split = 75;
 			char spltWords = line.charAt(split);
 
 			// prevent mid word splitting
-			if (spltWords != ' ') {
-				while (spltWords != ' ' && split > -1) {
+			if (spltWords != ' ')
+			{
+				while (spltWords != ' ' && split > -1)
+				{
 					--split;
 					spltWords = line.charAt(split);
 
@@ -244,38 +341,113 @@ public class TextModifier {
 			iLine = returnSpaces(5) + iLine;
 			line = leftText(line.substring(split + 1));
 			line = iLine + "\n" + line;
-		} else {
+		} else
+		{
 			line = returnSpaces(5) + line;
 		}
 
 		return line;
 	}
 
-	String blockText(String line) {
+	/**
+	 * blockText - Creates a block of text.
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, blocked (10 spaces).
+	 */
+	String blockText(String line)
+	{
 		line = line.trim().replaceAll("\\s+", " ");
-		if (line.length() > 70) {
+
+		if (line.length() > 70)
+		{
 			int split = 70;
 			char spltWords = line.charAt(split);
 
 			// prevent mid word splitting
-			if (spltWords != ' ') {
-				while (spltWords != ' ' && split > -1) {
+			if (spltWords != ' ')
+			{
+				while (spltWords != ' ' && split > -1)
+				{
 					--split;
 					spltWords = line.charAt(split);
 				}
 			}
-		
-			String iLine = line.substring(0, split); 
-			
-			return returnSpaces(10) + iLine + "\n" + blockText(line.substring(split + 1));
-		} else {
+
+			String iLine = line.substring(0, split);
+
+			return returnSpaces(10) + iLine + "\n"
+					+ blockText(line.substring(split + 1));
+		} else
+		{
 			line = returnSpaces(10) + line;
 		}
 		return line + "\n";
 	}
 
-	String envokeCommand(char command, String line) {
-		switch (command) {
+	/**
+	 * twoColumn - Creates two columns from given text.
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, in two columns.
+	 */
+	String twoColumn(String line)
+	{
+		String firstHalf = line.substring(0, line.length() / 2);
+		String secondHalf = line.substring(line.length() / 2);
+
+		String firstColumnWords[] = firstHalf.split("(?<=\\G.{35})");
+		String secondColumnWords[] = secondHalf.split("(?<=\\G.{35})");
+
+		String newString = "";
+
+		for (int i = 0; i < Math.max(firstColumnWords.length,
+				secondColumnWords.length); i++)
+		{
+			if (i < firstColumnWords.length && i < secondColumnWords.length)
+			{
+				if (firstColumnWords[i].length() < 35)
+				{
+					int remainingSpace = 35 - firstColumnWords[i].length();
+					newString += firstColumnWords[i]
+							+ returnSpaces(remainingSpace + 10)
+							+ secondColumnWords[i] + "\n";
+				} else
+				{
+					newString += firstColumnWords[i] + returnSpaces(10)
+							+ secondColumnWords[i] + "\n";
+				}
+			} else
+			{
+				newString += returnSpaces(35 + 10) + secondColumnWords[i];
+			}
+		}
+
+		return newString + "\n";
+	}
+
+	/**
+	 * oneColumn - Creates one column of given text.
+	 * 
+	 * @param line A string of text.
+	 * @return String - Lines of text, in one columns.
+	 */
+	String oneColumn(String line)
+	{
+		return leftText(line);
+	}
+	/**
+	 * envokeCommand() - An internal menu used to select a formatting option
+	 * from a given flag value.
+	 * 
+	 * @param command A character command of text.
+	 * @param line    A String of text.
+	 * @return String - Lines of formatted text.
+	 */
+	String envokeCommand(char command, String line)
+	{
+		switch (command)
+		{
 		case 'l': // left justified
 			return leftText(line);
 		case 'r': // right justified
@@ -290,12 +462,12 @@ public class TextModifier {
 			return singleText(line);
 		case 'i': // indented first line
 			return indentText(line);
-		case 'b': //block text
+		case 'b': // block text
 			return blockText(line);
-		case '2': 
-			return line;
+		case '2':
+			return twoColumn(line);
 		case '1':
-			return line;
+			return oneColumn(line);
 		case 'e':
 			return "\n";
 		default:
@@ -304,43 +476,66 @@ public class TextModifier {
 		}
 	}
 
-	void formatString(String text) {
+	/**
+	 * formatString() - separates flag commands from text, sending both to
+	 * appropriate functions.
+	 * 
+	 * @param text A String of text.
+	 */
+	void formatString(String text)
+	{
 		// Logic on parsing the rawText using the methods above.
-		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into lines
-		commandQueue.add('l'); //left justified default
-		commandQueue.add('s'); //single space default
-		commandQueue.add('1'); //one column default
-		
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].charAt(0) == '-') { // We are reading a command
-				// Add to the commandQueue
-				commandQueue.add(lines[i].charAt(1));
-			} else {
-				// Compile formattedLines until you reach another command.
-				
-				// Use the commandQueue to invoke methods on the next line
-				String formattedLine = lines[i];
-				
-				while (!commandQueue.isEmpty()) {
-					char command = commandQueue.remove();
-					formattedLine = envokeCommand(command, formattedLine);
+		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into
+													// lines
+
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (lines[i].length() >= 1)
+			{ // Ignore blank lines.
+				if (lines[i].charAt(0) == '-' && lines[i].length() == 2)
+				{ // We are reading a command
+					// Add to the commandQueue
+					commandQueue.add(lines[i].charAt(1));
+				} else
+				{ // Treat it like text.
+					// Compile formattedLines until you reach another command.
+
+					// Use the commandQueue to invoke methods on the next line
+					String formattedLine = lines[i];
+
+					while (!commandQueue.isEmpty())
+					{
+						char command = commandQueue.remove();
+						formattedLine = envokeCommand(command, formattedLine);
+					}
+
+					formattedString += formattedLine;
 				}
-				
-				formattedString += formattedLine;
-				commandQueue.add('l');
-				commandQueue.add('s');
-				commandQueue.add('1');
+			} else
+			{
+				formattedString += "\n";
 			}
 		}
 	}
 
-	String getFormattedString() {
+	/**
+	 * getFormattedString() - returns a formatted string
+	 * 
+	 * @return String - A String of text.
+	 */
+	String getFormattedString()
+	{
 		return formattedString;
 	}
-	
-	String getErrorLog() {
+
+	/**
+	 * getErrorLog() - returns an error log string
+	 * 
+	 * @return String - An error log file string.
+	 */
+	String getErrorLog()
+	{
 		return errorLog;
 	}
-	
-	
+
 }

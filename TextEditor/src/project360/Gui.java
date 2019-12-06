@@ -27,9 +27,10 @@ import javax.swing.plaf.metal.*;
 import javax.swing.text.*;
 
 /**
- * Creates a GUI object for the 360 Text Editor application
+ * Gui Class - Creates a GUI object for the 360 Text Editor application
  */
-class Gui extends JFrame implements ActionListener {
+class Gui extends JFrame implements ActionListener
+{
 	static String textStr = ""; // hold user text
 	static boolean imported = false; // true if a file has been imported
 	static TextModifier modedText;
@@ -44,7 +45,8 @@ class Gui extends JFrame implements ActionListener {
 	/**
 	 * Constructor for the Gui class
 	 */
-	Gui() {
+	Gui()
+	{
 		// create frame
 		frameOne = new JFrame("360 Text Editor");
 		// exits program when window is closed
@@ -55,10 +57,12 @@ class Gui extends JFrame implements ActionListener {
 		panel.setLayout(new GridLayout(2, 1, 5, 5));
 
 		// set GUI theme
-		try {
+		try
+		{
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 		}
 
 		// Create text boxes
@@ -68,7 +72,7 @@ class Gui extends JFrame implements ActionListener {
 		topText.setLineWrap(true);
 		topText.setWrapStyleWord(true);
 		topText.setMargin(new Insets(10, 10, 10, 10));
-		topText.setEditable(false);
+		topText.setEditable(true);
 
 		JScrollPane scroll = new JScrollPane(topText);
 
@@ -100,17 +104,7 @@ class Gui extends JFrame implements ActionListener {
 		SimpleAttributeSet left = new SimpleAttributeSet();
 		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
 
-		// try
-		// {
-		//
-		// }
-		// catch(Exception e)
-		// {
-		//
-		// }
-
 		panelOne.setMargin(new Insets(10, 10, 10, 10));
-		// p.setBounds(10, 320, 580, 300);
 
 		// Create a menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -171,16 +165,17 @@ class Gui extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Invoked when any of the following menu action occurs: Export, Import,
+	 * Used when any of the following menu action occurs: Export, Import,
 	 * Process, Flag Guide, Clear. Interacts with the ActionListener class
 	 * 
 	 * @param event the event to be processed
 	 */
-
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(ActionEvent event)
+	{
 		String select = event.getActionCommand();
 
-		if (select.equals("Export")) {
+		if (select.equals("Export"))
+		{
 
 			// Create file selection object
 			JFileChooser selectExp = new JFileChooser("f:");
@@ -188,12 +183,18 @@ class Gui extends JFrame implements ActionListener {
 
 			int saveE = selectExp.showSaveDialog(null);
 
-			if (saveE == JFileChooser.APPROVE_OPTION) {
+			if (saveE == JFileChooser.APPROVE_OPTION)
+			{
 
-				File label = new File(selectExp.getSelectedFile().getAbsolutePath()+"/FormattedText.txt");
-				File error = new File(selectExp.getSelectedFile().getAbsolutePath()+"/ErrorLog.txt");
+				File label = new File(
+						selectExp.getSelectedFile().getAbsolutePath()
+								+ "/FormattedText.txt");
+				File error = new File(
+						selectExp.getSelectedFile().getAbsolutePath()
+								+ "/ErrorLog.txt");
 
-				try {
+				try
+				{
 					// write files
 					label.createNewFile();
 					FileWriter writer = new FileWriter(label, false);
@@ -202,7 +203,7 @@ class Gui extends JFrame implements ActionListener {
 					wfile.write(bottomText.getText());
 					wfile.flush();
 					wfile.close();
-					
+
 					error.createNewFile();
 					writer = new FileWriter(error, false);
 					wfile = new BufferedWriter(writer);
@@ -210,23 +211,29 @@ class Gui extends JFrame implements ActionListener {
 					wfile.write(modedText.getErrorLog());
 					wfile.flush();
 					wfile.close();
-				} catch (Exception evt) {
+				} catch (Exception evt)
+				{
 					JOptionPane.showMessageDialog(frameOne, evt.getMessage());
 				}
 			} else
 				// cancel option text
-				JOptionPane.showMessageDialog(frameOne, "A file was not exported");
-		} else if (select.equals("Import")) {
+				JOptionPane.showMessageDialog(frameOne,
+						"A file was not exported");
+		} else if (select.equals("Import"))
+		{
 			JFileChooser selectImp = new JFileChooser("f:");
 
 			int saveI = selectImp.showOpenDialog(null);
 
 			// if a file is selected
-			if (saveI == JFileChooser.APPROVE_OPTION) {
+			if (saveI == JFileChooser.APPROVE_OPTION)
+			{
 				// obtain file path
-				File fileIn = new File(selectImp.getSelectedFile().getAbsolutePath());
+				File fileIn = new File(
+						selectImp.getSelectedFile().getAbsolutePath());
 
-				try {
+				try
+				{
 					FileReader fRead = new FileReader(fileIn);
 					BufferedReader bRead = new BufferedReader(fRead);
 
@@ -234,52 +241,65 @@ class Gui extends JFrame implements ActionListener {
 					textStr = bRead.readLine();
 					String str1 = "";
 
-					while ((str1 = bRead.readLine()) != null) {
+					while ((str1 = bRead.readLine()) != null)
+					{
 						textStr = textStr + "\n" + str1;
 					}
 					// display top text
 					topText.setText(textStr);
 					fRead.close();
 					bRead.close();
-				} catch (Exception evt) {
+				} catch (Exception evt)
+				{
 					JOptionPane.showMessageDialog(frameOne, evt.getMessage());
 				}
 				imported = true;
 
 			} else
-				JOptionPane.showMessageDialog(frameOne, "A file was not imported");
-		} else if (select.equals("Process")) {
+				JOptionPane.showMessageDialog(frameOne,
+						"A file was not imported");
+		} else if (select.equals("Process"))
+		{
 			// if a file is selected
-			if (imported == true) {
+			if (imported == true || topText.getText() != "")
+			{
 				// formats the output text and displays it in bottom window
-				modedText = new TextModifier(textStr);
+				modedText = new TextModifier(topText.getText());
 				modedText.formatString(textStr);
 				bottomText.setText(modedText.getFormattedString());
 				JOptionPane.showMessageDialog(frameOne, "File Processed");
-			} else {
-				JOptionPane.showMessageDialog(frameOne, "Please import a file to process");
+			} else
+			{
+				JOptionPane.showMessageDialog(frameOne,
+						"Please import a file to process");
 			}
-		} else if (select.equals("Clear")) {
+		} else if (select.equals("Clear"))
+		{
 			topText.setText("");
 			bottomText.setText("");
 			imported = false;
 			textStr = "";
-		} else if (select.equals("Flag Guide")) {
-			JOptionPane.showMessageDialog(frameOne, "Flag Guide\n" +
-					"'-r' right-justified text\n" + "'-c' center text\n" +
-					"'-l' left-justified text\n" + "'-t' title\n" +
-					"'-d' double line spacing\n" + "'-s' single line spacing\n" +
-					"'-i' indented text\n" + "'-b' block text\n" +
-					"'-2' two columns text\n" + "'-1' one column text\n" +
-					"'-e' blank line\n");
+		} else if (select.equals("Flag Guide"))
+		{
+			JOptionPane.showMessageDialog(frameOne, "Flag Guide\n"
+					+ "'-r' right-justified text\n" + "'-c' center text\n"
+					+ "'-l' left-justified text\n" + "'-t' title\n"
+					+ "'-d' double line spacing\n"
+					+ "'-s' single line spacing\n" + "'-i' indented text\n"
+					+ "'-b' block text\n" + "'-2' two columns text\n"
+					+ "'-1' one column text\n" + "'-e' blank line\n");
 
-		} else if (select.equals("Error Guide")) {
-			JOptionPane.showMessageDialog(frameOne, "Error Guide\n\n" + 
-		"If an error has occured in the program,\nan error log will be saved " +
-					"along side\nyour exported file.\n\n" + 
-		"Error Conditions:\n" + "An invalid flag. ex. -5\nA blank line");
-			
-		} else if (select.equals("Formatting Guide")) {
+		} else if (select.equals("Error Guide"))
+		{
+			JOptionPane.showMessageDialog(frameOne, "Error Guide\n\n"
+					+ "If an error has occured in the program,\nan error log "
+					+ "will be saved "
+					+ "along side\nyour exported file.\n\n"
+					+ "Error Conditions:\n"
+					+ "An invalid flag. ex. -5\nA blank line");
+
+		} else if (select.equals("Formatting Guide"))
+		{
 			JOptionPane.showMessageDialog(frameOne, "Formatting Guide\n\n"
 					+ "-To format your text, place a command flag on the line\n"
 					+ "or lines directly about the text you wish to edit.\n\n"
@@ -289,10 +309,10 @@ class Gui extends JFrame implements ActionListener {
 					+ "for a single section of text, the second flag will be s"
 					+ "elected.\n\n"
 					+ "-Ensure that there are no blank lines in your file.\n"
-					+ "\nFormatting Example:\n" + "----------------\n"
-					+ "-c\n" + "-i\n"
+					+ "\nFormatting Example:\n" + "----------------\n" + "-c\n"
+					+ "-i\n"
 					+ "Lorem Impsum Lorem ipsum dolor sit amet, consectetuer\n"
-					+ "adipiscing elit Lorem ipsum dolor sit amet");				
+					+ "adipiscing elit Lorem ipsum dolor sit amet");
 		}
 	}
 }
