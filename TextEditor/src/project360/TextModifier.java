@@ -273,6 +273,31 @@ public class TextModifier {
 		}
 		return line + "\n";
 	}
+	
+	String twoColumn(String line) {					
+		String firstHalf = line.substring(0, line.length()/2);
+		String secondHalf = line.substring(line.length()/2);
+		
+		String firstColumnWords[] = firstHalf.split("(?<=\\G.{35})");
+		String secondColumnWords[] = secondHalf.split("(?<=\\G.{35})");
+		
+		String newString = "";
+		
+		for (int i = 0; i < Math.max(firstColumnWords.length, secondColumnWords.length); i++) {
+			if (i < firstColumnWords.length && i < secondColumnWords.length) {
+				if (firstColumnWords[i].length() < 35) {
+					int remainingSpace = 35 - firstColumnWords[i].length();
+					newString += firstColumnWords[i] + returnSpaces(remainingSpace + 10) + secondColumnWords[i] + "\n";
+				} else {
+					newString += firstColumnWords[i] + returnSpaces(10) + secondColumnWords[i] + "\n";
+				}
+			} else {
+				newString += returnSpaces(35+10) + secondColumnWords[i];
+			}
+		}
+		
+		return newString + "\n";	
+	}
 
 	String envokeCommand(char command, String line) {
 		switch (command) {
@@ -293,7 +318,7 @@ public class TextModifier {
 		case 'b': //block text
 			return blockText(line);
 		case '2': 
-			return line;
+			return twoColumn(line);
 		case '1':
 			return line;
 		case 'e':
@@ -307,9 +332,9 @@ public class TextModifier {
 	void formatString(String text) {
 		// Logic on parsing the rawText using the methods above.
 		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into lines
-		commandQueue.add('l'); //left justified default
-		commandQueue.add('s'); //single space default
-		commandQueue.add('1'); //one column default
+//		commandQueue.add('l'); //left justified default
+//		commandQueue.add('s'); //single space default
+//		commandQueue.add('1'); //one column default
 		
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].charAt(0) == '-') { // We are reading a command
@@ -327,9 +352,9 @@ public class TextModifier {
 				}
 				
 				formattedString += formattedLine;
-				commandQueue.add('l');
-				commandQueue.add('s');
-				commandQueue.add('1');
+//				commandQueue.add('l');
+//				commandQueue.add('s');
+//				commandQueue.add('1');
 			}
 		}
 	}
