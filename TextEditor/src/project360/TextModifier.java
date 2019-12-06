@@ -26,6 +26,7 @@ public class TextModifier
 	private String rawText;
 	private String formattedString;
 	private String errorLog;
+	private static char lastformat;
 
 	private Queue<Character> commandQueue;
 
@@ -40,6 +41,7 @@ public class TextModifier
 		formattedString = "";
 		errorLog = "Error Log:\n";
 		commandQueue = new LinkedList<>();
+		lastformat = 'c';
 	}
 
 	/**
@@ -434,7 +436,14 @@ public class TextModifier
 	 */
 	String oneColumn(String line)
 	{
-		return leftText(line);
+		if(lastformat == 'c')
+			line = centerText(line);
+		else if(lastformat == 'l')
+			line = leftText(line);
+		else if(lastformat == 'r')
+			line = rightText(line);
+		
+		return line;
 	}
 	/**
 	 * envokeCommand() - An internal menu used to select a formatting option
@@ -464,11 +473,11 @@ public class TextModifier
 			return indentText(line);
 		case 'b': // block text
 			return blockText(line);
-		case '2':
+		case '2': // two columns of text
 			return twoColumn(line);
-		case '1':
+		case '1': // one column of text
 			return oneColumn(line);
-		case 'e':
+		case 'e': // blank line of text
 			return "\n";
 		default:
 			errorLog += "-" + command + " is not a valid command.\n";
@@ -496,6 +505,13 @@ public class TextModifier
 				{ // We are reading a command
 					// Add to the commandQueue
 					commandQueue.add(lines[i].charAt(1));
+					
+					if(lines[i].charAt(1) == 'c' || lines[i].charAt(1) == 'l'
+							|| lines[i].charAt(1) == 'r' )
+					{
+						lastformat = lines[i].charAt(1);
+					}
+						
 				} else
 				{ // Treat it like text.
 					// Compile formattedLines until you reach another command.
