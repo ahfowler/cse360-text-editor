@@ -304,7 +304,7 @@ class Gui extends JFrame implements ActionListener
 		{
 			JOptionPane.showMessageDialog(frameOne, "Formatting Guide\n\n"
 					+ "-To format your text, place a command flag on the line\n"
-					+ "or lines directly about the text you wish to edit.\n\n"
+					+ "or lines directly above the text you wish to edit.\n\n"
 					+ "-Multiple flags may be used on a single line of text,\n"
 					+ "but each flag needs to be on its own line.\n\n"
 					+ "-If two flags with conflicting instructions are listed \n"
