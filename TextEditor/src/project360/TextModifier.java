@@ -391,29 +391,34 @@ public class TextModifier
 	 * @param line A string of text.
 	 * @return String - Lines of text, in two columns.
 	 */
-	String twoColumn(String text) {
+	String twoColumn(String text)
+	{
 		int middle = text.length() / 2;
 		int before = text.lastIndexOf(' ', middle);
 		int after = text.indexOf(' ', (middle + 1));
-		
-		if (before == -1 || (after != -1 && middle - before >= after - middle)) {
-		    middle = after;
-		} else {
-		    middle = before;
-		}		
+
+		if (before == -1 || (after != -1 && middle - before >= after - middle))
+		{
+			middle = after;
+		} else
+		{
+			middle = before;
+		}
 
 		String firstHalf = text.substring(0, (int) middle);
 		String secondHalf = text.substring((int) (middle + 1));
-	
+
 		String words1[] = firstHalf.split("\\s");
-		//System.out.println(words1[words1.length-1]);
-		
+		// System.out.println(words1[words1.length-1]);
+
 		ArrayList<String> lines1 = new ArrayList<String>();
-		
+
 		int len = 0;
 		String line = "";
-		for (int i=0; i< words1.length; i++) {
-			if (len + words1[i].length() > 35) {
+		for (int i = 0; i < words1.length; i++)
+		{
+			if (len + words1[i].length() > 35)
+			{
 				line = line.trim(); // line.substring(0, line.length()-1);
 				lines1.add(line);
 				len = 0;
@@ -423,15 +428,17 @@ public class TextModifier
 			len += words1[i].length() + 1;
 		}
 		lines1.add(line);
-		
+
 		String words2[] = secondHalf.split("\\s");
-		
+
 		ArrayList<String> lines2 = new ArrayList<String>();
 		len = 0;
 		line = "";
-		
-		for (int i=0; i< words2.length; i++) {
-			if (len + words2[i].length() > 35) {
+
+		for (int i = 0; i < words2.length; i++)
+		{
+			if (len + words2[i].length() > 35)
+			{
 				line = line.trim(); // line.substring(0, line.length()-1);
 				lines2.add(line);
 				len = 0;
@@ -444,20 +451,24 @@ public class TextModifier
 
 		int i, j;
 		String output = "";
-		for (i=0, j=0; i<lines1.size() && j<lines2.size(); i++, j++) {
-			output += String.format("%-35s          %-35s\n", lines1.get(i), lines2.get(j));
+		for (i = 0, j = 0; i < lines1.size() && j < lines2.size(); i++, j++)
+		{
+			output += String.format("%-35s          %-35s\n", lines1.get(i),
+					lines2.get(j));
 		}
-		
-		while (i != lines1.size()) {
+
+		while (i != lines1.size())
+		{
 			output += lines1.get(i++) + "\n";
-			
-			while (j != lines2.size()) {
+
+			while (j != lines2.size())
+			{
 				// 45 spaces
 				output += returnSpaces(45) + lines2.get(j++) + "\n";
 			}
 		}
 
-		return output;	
+		return output;
 	}
 
 	/**
@@ -470,7 +481,7 @@ public class TextModifier
 	{
 		return leftText(line);
 	}
-	
+
 	/**
 	 * envokeCommand() - An internal menu used to select a formatting option
 	 * from a given flag value.
@@ -518,48 +529,64 @@ public class TextModifier
 	void formatString(String text)
 	{
 		// Logic on parsing the rawText using the methods above.
-		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into lines
-		commandQueue.add('l'); //left justified default
+		String lines[] = rawText.split("\\r?\\n"); // Split the rawText into
+													// lines
+		commandQueue.add('l'); // left justified default
 //		commandQueue.add('s'); //single space default
 //		commandQueue.add('1'); //one column default
-		
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].length() >= 1) { // Ignore blank lines.
-				if (lines[i].charAt(0) == '-' && lines[i].length() == 2) { // We are reading a command
+
+		for (int i = 0; i < lines.length; i++)
+		{
+			if (lines[i].length() >= 1)
+			{ // Ignore blank lines.
+				if (lines[i].charAt(0) == '-' && lines[i].length() == 2)
+				{ // We are reading a command
 					// Add to the commandQueue
 					commandQueue.add(lines[i].charAt(1));
-				} else { // Treat it like text.
+				} else
+				{ // Treat it like text.
 					String formattedLine = "";
-					
+
 					// Compile formattedLines until you reach another command.
-					while (i < lines.length && lines[i].length() > 2 && lines[i].charAt(0) != '-' && lines[i].length() != 2) {
+					while (i < lines.length && lines[i].length() > 2
+							&& lines[i].charAt(0) != '-'
+							&& lines[i].length() != 2)
+					{
 						formattedLine += " " + lines[i];
 						i++;
 					}
-					
-					if (i < lines.length) {
-						if (lines[i].length() < 1) {
+
+					if (i < lines.length)
+					{
+						if (lines[i].length() < 1)
+						{
 							// You just read a blank line.
 							formattedLine += "\n";
-						} else if (lines[i].charAt(0) == '-' && lines[i].length() == 2) {
+						} else if (lines[i].charAt(0) == '-'
+								&& lines[i].length() == 2)
+						{
 							i--;
 						}
 					}
-					
-					// Use the commandQueue to invoke methods on the next line				
-					while (!commandQueue.isEmpty()) {
+
+					// Use the commandQueue to invoke methods on the next line
+					while (!commandQueue.isEmpty())
+					{
 						char command = commandQueue.remove();
-						if (command == 'e') {
+						if (command == 'e')
+						{
 							formattedString += "\n";
-						} else {
-							formattedLine = envokeCommand(command, formattedLine);
+						} else
+						{
+							formattedLine = envokeCommand(command,
+									formattedLine);
 						}
 					}
 
 					formattedString += formattedLine;
 					commandQueue.add('l');
-	//				commandQueue.add('s');
-	//				commandQueue.add('1');
+					// commandQueue.add('s');
+					// commandQueue.add('1');
 				}
 			} else
 			{
