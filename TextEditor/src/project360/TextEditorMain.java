@@ -14,8 +14,13 @@ package project360;
  * @version 1.0 November 22, 2019
  **/
 
-class TextEditorMain {
-	public static void main(String[] args) {
+/**
+ * TextEditorMain Class - The 360 Text Editor is launched from here
+ */
+class TextEditorMain 
+{
+	public static void main(String[] args) 
+	{
 		Gui editor = new Gui(); // editor interface object
 	}
 }
