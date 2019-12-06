@@ -126,6 +126,7 @@ class Gui extends JFrame implements ActionListener
 		JMenuItem hHelp = new JMenuItem("Flag Guide");
 		JMenuItem gHelp = new JMenuItem("Formatting Guide");
 		JMenuItem eHelp = new JMenuItem("Error Guide");
+		JMenuItem tHelp = new JMenuItem("How To");
 
 		fImport.addActionListener(this);
 		fExport.addActionListener(this);
@@ -134,6 +135,7 @@ class Gui extends JFrame implements ActionListener
 		hHelp.addActionListener(this);
 		gHelp.addActionListener(this);
 		eHelp.addActionListener(this);
+		tHelp.addActionListener(this);
 
 		fileOpt.add(fImport);
 		fileOpt.add(fExport);
@@ -142,6 +144,7 @@ class Gui extends JFrame implements ActionListener
 		helpOpt.add(hHelp);
 		helpOpt.add(gHelp);
 		helpOpt.add(eHelp);
+		helpOpt.add(tHelp);
 
 		// Controls and sets frame formatting
 		frameOne.setJMenuBar(menuBar);
@@ -293,8 +296,7 @@ class Gui extends JFrame implements ActionListener
 		{
 			JOptionPane.showMessageDialog(frameOne, "Error Guide\n\n"
 					+ "If an error has occured in the program,\nan error log "
-					+ "will be saved "
-					+ "along side\nyour exported file.\n\n"
+					+ "will be saved " + "along side\nyour exported file.\n\n"
 					+ "Error Conditions:\n"
 					+ "An invalid flag. ex. -5\nA blank line");
 
@@ -318,6 +320,23 @@ class Gui extends JFrame implements ActionListener
 					+ "-i\n"
 					+ "Lorem Impsum Lorem ipsum dolor sit amet, consectetuer\n"
 					+ "adipiscing elit Lorem ipsum dolor sit amet");
+		} else if (select.equals("How To"))
+		{
+			JOptionPane.showMessageDialog(frameOne, "How To:\n\n"
+					+ "To use the 360 Text Editor, start by importing a\n"
+					+ "properly formatted text file. This is done in the\n"
+					+ "file menu. You may view and edit the imported\n"
+					+ "text in the top viewer window. If you are happy\n"
+					+ "with your import you may choose to process the\n"
+					+ "file. Processing will allow you to preview the\n"
+					+ "‘export text’. After which, you may choose to\n"
+					+ "re-edit your imported file and process again, or\n"
+					+ "export to a .txt file. If you choose to export, you\n"
+					+ "need only select export in the file menu. A file\n"
+					+ "of your formatted text will be saved in a\n"
+					+ "location of your choosing. Any encountered\n"
+					+ "errors will be saved in an error log at that\n"
+					+ "same location.");
 		}
 	}
 }
